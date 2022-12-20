@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="calculator.css">
+    <title>Calculator</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="calculator">
+            <div class="output">
+                <div id="display">0</div>
+            </div>
+            <div class="buttons">
+                <table>
+                    <tr>
+                        <td><button class="btn-operator" onclick="clearNumbers()">C</button></td>
+                        <td><button class="btn-operator" onclick="clearNumbers()">CE</button></td>
+                        <td><button class="btn-operator">%</button></td>
+                        <td><button class="btn-operator" onclick="operators('/')">&divide;</button></td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn-number" onclick="chooseNumbers(7)">7</button></td>
+                        <td><button class="btn-number" onclick="chooseNumbers(8)">8</button></td>
+                        <td><button class="btn-number" onclick="chooseNumbers(9)">9</button></td>
+                        <td><button class="btn-number" onclick="operators('-')">-</button></td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn-number" onclick="chooseNumbers(4)">4</button></td>
+                        <td><button class="btn-number" onclick="chooseNumbers(5)">5</button></td>
+                        <td><button class="btn-number" onclick="chooseNumbers(6)">6</button></td>
+                        <td><button class="btn-number" onclick="operators('+')">+</button></td>
+                    </tr>
+                    <tr>
+                        <td><button class="btn-number" onclick="chooseNumbers(1)">1</button></td>
+                        <td><button class="btn-number" onclick="chooseNumbers(2)">2</button></td>
+                        <td><button class="btn-number" onclick="chooseNumbers(3)">3</button></td>
+                        <td><button class="btn-operator" onclick="operators('*')">&times;</button></td>
+                    </tr>
+                    <tr>
+                        <td><button class=".">.</button></td>
+                        <td><button class="btn-number" onclick="chooseNumbers(0)">0</button></td>
+                        <td><button class="+/-">+/-</button></td>
+                        <td rowspan="2"><button class="btn-equal" onclick="equals()">=</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <script src="calculator.js"></script>
+        <script>
+            let firstNumber = '';
+            let secondNumber = '';
+            let choosenOperator = '';
+
+            const calculator = new Calculator();
+
+            function chooseNumbers(selectedNumber) {
+                if (choosenOperator === '') {
+                    firstNumber += selectedNumber;
+                    document.querySelector('#display').innerHTML = firstNumber;
+                } else {
+                    secondNumber += selectedNumber;
+                    document.querySelector('#display').innerHTML = firstNumber + choosenOperator + secondNumber;
+                }
+            }
+
+            function operators(selectedOperation) {
+                choosenOperator = selectedOperation;
+                document.querySelector('#display').innerHTML = firstNumber + choosenOperator;
+            }
+
+            
+            function equals() {
+                let totalAnswer;
+
+                if (choosenOperator === '+') {
+                    totalAnswer = calculator.addition(firstNumber, secondNumber);
+                    
+                } else if (choosenOperator === '*') {
+                    totalAnswer = calculator.multiplication(firstNumber, secondNumber);
+
+                } else if (choosenOperator === '/') {
+                    totalAnswer = calculator.division(firstNumber, secondNumber);
+
+                } else {
+                    totalAnswer = calculator.subtraction(firstNumber, secondNumber);
+                }
+
+                document.getElementById('display').innerHTML = totalAnswer;
+                firstNumber = totalAnswer;
+                secondNumber = '';
+            }
+
+            function clearNumbers() {
+                firstNumber = '';
+                secondNumber = '';
+                choosenOperator = '';
+                document.getElementById('display').innerHTML = '0';
+            }
+
+        </script>
+</body>
+</html>
